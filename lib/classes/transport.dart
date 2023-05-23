@@ -7,9 +7,15 @@ class Transport {
 
   factory Transport.fromJson(Map<String, dynamic> json) {
     return Transport(
-      json['id'],
+      json['_id'],
       json['cargo_category'],
       json['max_weight'],
     );
   }
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'cargo_category': cargoCategory,
+    'max_weight': maxWeight,
+  };
 }

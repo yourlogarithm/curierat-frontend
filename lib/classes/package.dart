@@ -1,15 +1,12 @@
 import 'package:curierat_frontend/classes/contact.dart';
 
-class Package {
-  final Contact senderContact;
-  final Contact receiverContact;
-  final String office;
-  final String destination;
-  final double weight;
-  final int category;
+import 'form.dart';
+
+class Package extends MyForm {
   final double price;
 
-  Package(this.senderContact, this.receiverContact, this.office, this.destination, this.weight, this.category, this.price);
+  Package(Contact senderContact, Contact receiverContact, String office, String destination, double weight, int category, this.price)
+      : super(senderContact, receiverContact, office, destination, weight, category);
 
   factory Package.fromJson(Map<String, dynamic> json) {
     return Package(
@@ -22,4 +19,14 @@ class Package {
       json['price']
     );
   }
+
+  Map<String, dynamic> toJson() => {
+    'sender_contact': senderContact.toJson(),
+    'receiver_contact': receiverContact.toJson(),
+    'office': office,
+    'destination': destination,
+    'weight': weight,
+    'category': category,
+    'price': price
+  };
 }

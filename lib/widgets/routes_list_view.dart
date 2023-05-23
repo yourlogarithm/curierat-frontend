@@ -1,4 +1,5 @@
 import 'package:curierat_frontend/pages/add_route_page.dart';
+import 'package:curierat_frontend/pages/route_page.dart';
 import 'package:flutter/material.dart';
 
 import '../classes/my_route.dart';
@@ -38,22 +39,27 @@ class _RoutesListViewState extends State<RoutesListView> {
             height: 260,
             child: ListView.builder(
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(routes[index].transport.id),
-                  subtitle: Text(routes[index].cities.join(', ')),
-                  trailing: IconButton(
-                    onPressed: () {
-                      HttpUtils.get('/routes/delete/${routes[index].id}').then((value) {
-                        if (value['message'] != 'Route deleted') {
-                          debugPrint('Route not deleted');
-                          return;
-                        }
-                        setState(() {
-                          routes.removeAt(index);
+                return InkWell(
+                  onTap: () {
+                    Navigator.of(context).pushNamed(RoutePage.routeName, arguments: routes[index]);
+                  },
+                  child: ListTile(
+                    title: Text(routes[index].cities.join(', ')),
+                    subtitle: Text(routes[index].transport),
+                    trailing: IconButton(
+                      onPressed: () {
+                        HttpUtils.delete('/routes/delete/{id}?id_=${routes[index].id}').then((statusCode) {
+                          if (statusCode != 200) {
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Route not deleted')));
+                            return;
+                          }
+                          setState(() {
+                            routes.removeAt(index);
+                          });
                         });
-                      });
-                    },
-                    icon: const Icon(Icons.delete_forever),
+                      },
+                      icon: const Icon(Icons.delete_forever),
+                    ),
                   ),
                 );
               },

@@ -42,9 +42,9 @@ class _UsersListViewState extends State<UsersListView> {
                   subtitle: Text(users[index].email),
                   trailing: IconButton(
                     onPressed: () {
-                      HttpUtils.get('/users/delete/${users[index].username}').then((value) {
-                        if (value['message'] != 'User deleted') {
-                          debugPrint('User not deleted');
+                      HttpUtils.delete('/users/delete/${users[index].username}').then((statusCode) {
+                        if (statusCode != 200) {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('User not deleted')));
                           return;
                         }
                         setState(() {

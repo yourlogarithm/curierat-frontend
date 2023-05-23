@@ -34,7 +34,6 @@ class _AddRoutePageState extends State<AddRoutePage> {
           pickedTime.minute,
         );
         _selectedDate = finalDateTime;
-        print(finalDateTime.toIso8601String());
       }
     }
   }
@@ -63,14 +62,21 @@ class _AddRoutePageState extends State<AddRoutePage> {
           ElevatedButton(
             onPressed: () async {
               List<String> cities = _citiesEditingController.text.split(',');
-              cities = cities.map((element) => element[0].toUpperCase() + element.substring(1)).toList();
+              cities = cities.map((element) => element[0].trim().toUpperCase() + element.substring(1).trim()).toList();
               String dateTime = _selectedDate!.toIso8601String();
               String transport = _transportEditingController.text;
-              await HttpUtils.post('/routes/add', {
+              Map<String, dynamic> body = {
                 'cities': cities,
                 'start': dateTime,
                 'transport': transport,
-              });
+              };
+              await HttpUtils.postWithBody('/routes/add', body).then((value) =>
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(value == 200 ? 'Route added' : 'Error'),
+                  ),
+                )
+              );
               Navigator.of(context).pop();
             },
             child: const Text('Add route'),

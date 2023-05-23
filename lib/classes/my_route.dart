@@ -1,11 +1,10 @@
 import 'package:curierat_frontend/classes/package.dart';
-import 'package:curierat_frontend/classes/transport.dart';
 
 class MyRoute {
   final List<String> cities;
-  final Transport transport;
+  final String transport;
   final List<DateTime> schedule;
-  final int currentPosition;
+  int currentPosition;
   final List<Package> packages;
   final double currentWeight;
   final String id;
@@ -15,7 +14,7 @@ class MyRoute {
   factory MyRoute.fromJson(Map<String, dynamic> json) {
     return MyRoute(
       List<String>.from(json['cities']),
-      Transport.fromJson(json['transport']),
+      json['transport'],
       List<DateTime>.from(json['schedule'].map((item) => DateTime.parse(item)).toList()),
       json['current_position'],
       List.from(json['packages'].map((item) => Package.fromJson(item)).toList()),

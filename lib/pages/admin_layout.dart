@@ -1,4 +1,5 @@
 import 'package:curierat_frontend/widgets/routes_list_view.dart';
+import 'package:curierat_frontend/widgets/transports_list_view.dart';
 import 'package:curierat_frontend/widgets/users_list_view.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,8 @@ class AdminLayout extends StatelessWidget {
         child: Column(
           children: [
             UsersListView(),
-            RoutesListView()
+            RoutesListView(),
+            TransportsListView()
           ],
         ),
     );

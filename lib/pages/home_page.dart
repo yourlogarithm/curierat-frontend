@@ -1,6 +1,5 @@
-import 'package:curierat_frontend/httpUtils.dart';
+import 'package:curierat_frontend/pages/add_package_page.dart';
 import 'package:curierat_frontend/pages/admin_layout.dart';
-import 'package:curierat_frontend/widgets/users_list_view.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -11,11 +10,12 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const AdminLayout(),
+      body: const SingleChildScrollView(child: AdminLayout()),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            debugPrint(HttpUtils.getAccessToken());
-          }
+        child: const Icon(Icons.add),
+        onPressed: () {
+          Navigator.of(context).pushNamed(AddPackagePage.routeName);
+        }
       ),
     );
   }
